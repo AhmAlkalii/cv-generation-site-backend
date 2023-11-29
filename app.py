@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Set your OpenAI API key
-openai_client = OpenAI(api_key='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')
+# openai_client = OpenAI(api_key='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')
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -72,70 +72,11 @@ def login_user():
     else:
         return jsonify({'error': 'User not found'}), 404
 
-# @app.route('/generate-cv', methods=['POST'])
-# def generate_cv():
-#     data = request.json
-#
-#     # Validate required fields
-#     required_fields = ['jobDescription']
-#     for field in required_fields:
-#         if field not in data:
-#             return jsonify({'error': f'Missing required field: {field}'}), 400
-#
-#     # Call the OpenAI API for CV generation
-#     try:
-#         response = openai_client.chat.completions.create(
-#             model="gpt-3.5-turbo",
-#             messages=[
-#                 {"role": "system", "content": "You are a helpful assistant."},
-#                 {"role": "user", "content": data['jobDescription']},
-#             ]
-#         )
-#         generated_cv = response.choices[0].message['content'].strip()
-#
-#         return jsonify({'generatedCV': generated_cv})
-#     except Exception as e:
-#         print(e)
-#         return jsonify({'error': 'CV generation failed'}), 500
-
-@app.route('/generate-cv', methods=['POST'])
-def generate_cv():
-    data = request.json
-
-    # Validate required fields
-    required_fields = ['jobDescription']
-    for field in required_fields:
-        if field not in data:
-            return jsonify({'error': f'Missing required field: {field}'}), 400
-
-    # Call the OpenAI API for CV generation
-    try:
-        response = openai_client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": data['jobDescription']},
-            ]
-        )
-
-        # Print or log the response
-        print(response)
-
-        # Check if 'choices' is present and is a list
-        if 'choices' in response and isinstance(response['choices'], list) and response['choices']:
-            # Check if the first element is a dictionary
-            first_choice = response['choices'][0]
-            if isinstance(first_choice, dict) and 'message' in first_choice:
-                generated_cv = first_choice['message']['content'].strip()
-                return jsonify({'generatedCV': generated_cv})
-            else:
-                return jsonify({'error': 'Unexpected response structure'}), 500
-        else:
-            return jsonify({'error': 'Unexpected response structure'}), 500
-
-    except Exception as e:
-        print(e)
-        return jsonify({'error': 'CV generation failed'}), 500
+@app.route('/openai-api-key', methods=['GET'])
+def get_openai_api_key():
+    # Replace 'YOUR_OPENAI_API_KEY' with the actual OpenAI API key
+    openai_api_key = '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'
+    return jsonify({'openai_api_key': openai_api_key})
 
 if __name__ == '__main__':
     app.run(debug=True)

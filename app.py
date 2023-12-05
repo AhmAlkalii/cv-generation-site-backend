@@ -7,9 +7,6 @@ from openai import OpenAI
 app = Flask(__name__)
 CORS(app)
 
-# Set your OpenAI API key
-# openai_client = OpenAI(api_key='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')
-
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
@@ -75,7 +72,7 @@ def login_user():
 @app.route('/openai-api-key', methods=['GET'])
 def get_openai_api_key():
     # Replace 'YOUR_OPENAI_API_KEY' with the actual OpenAI API key
-    openai_api_key = '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'
+    openai_api_key = 'Provide-API-key-Here'
     return jsonify({'openai_api_key': openai_api_key})
 
 if __name__ == '__main__':
